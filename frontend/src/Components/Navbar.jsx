@@ -7,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../Redux/auth/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const { auth } = useSelector(state => state.auth)
+  const { auth, name } = useSelector(state => state.auth)
+  const dispatch = useDispatch()
 
   return (
     <div className={classes.root}>
@@ -42,11 +44,15 @@ export default function Navbar() {
             Bharti Tuition Classes
           </Typography>
           {
-            !auth && <>
-              <Link to='/login'>
-                <Button color="inherit">Login</Button>
-              </Link>
-            </>
+            auth ? (<>
+              <Typography variant='body1'>Hey, {name}</Typography>
+              <Button onClick={() => dispatch(logout())} color="inherit">Logout</Button>
+            </>) :
+              (<>
+                <Link to='/login'>
+                  <Button color="inherit">Login</Button>
+                </Link>
+              </>)
           }
         </Toolbar>
       </AppBar>

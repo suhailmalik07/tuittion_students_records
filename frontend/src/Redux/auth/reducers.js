@@ -1,6 +1,6 @@
 import {
   LOAD_LOGIN, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS,
-  REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS
+  REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS, LOGOUT
 } from './actionTypes';
 
 const initState = {
@@ -21,6 +21,9 @@ const reducers = (state = initState, { type, payload }) => {
 
     case LOAD_LOGIN:
       return { ...state, loading: false, error: false, auth: true, ...payload }
+
+    case LOGOUT:
+      return { ...state, auth: false }
 
     case REGISTER_REQUEST:
       return { ...state, loading: true }

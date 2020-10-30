@@ -7,14 +7,14 @@ import Typography from '@material-ui/core/Typography'
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../Redux/auth/actions';
 import { Box } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const history = useHistory()
 
-  const { error, message } = useSelector(state => state.auth)
+  const { error, message, auth } = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
 
@@ -22,6 +22,9 @@ const LoginPage = () => {
     e.preventDefault()
     dispatch(login({ email, password }))
   }
+
+
+  if (auth) return <Redirect to='/' />
 
   return (
     <div>

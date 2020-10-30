@@ -1,21 +1,16 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import HomePage from '../Pages/HomePage';
+import { Route, Switch } from 'react-router-dom';
 import LoginPage from '../Pages/LoginPage';
 import RegisterPage from '../Pages/RegisterPage';
+import PrivateRoutes from './PrivateRoutes';
 
 const Routes = () => {
-  const { auth } = useSelector(state => state.auth)
+
   return (
     <Switch>
-      <Route path='/' exact={true} component={HomePage} />
-      {
-        auth ? <Redirect to='/' /> : <>
-          <Route path='/login' component={LoginPage} />
-          <Route path='/register' component={RegisterPage} />
-        </>
-      }
+      <Route path='/login' component={LoginPage} />
+      <Route path='/register' component={RegisterPage} />
+      <PrivateRoutes />
     </Switch>
   )
 }

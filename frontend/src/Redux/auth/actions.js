@@ -2,7 +2,7 @@ import Axios from 'axios';
 import auth0 from '../../Api/auth0';
 import {
   LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS,
-  REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, LOAD_LOGIN
+  REGISTER_REQUEST, REGISTER_FAILURE, REGISTER_SUCCESS, LOAD_LOGIN, LOGOUT
 } from './actionTypes';
 
 export const loginRequest = payload => ({
@@ -23,6 +23,7 @@ export const loginFailure = payload => ({
 export const saveAuth = payload => dispatch => {
   localStorage.setItem('token', payload.token)
   localStorage.setItem('email', payload.email)
+  localStorage.setItem('name', payload.name)
 }
 
 export const loadAuthActionCreator = payload => ({
@@ -34,12 +35,23 @@ export const loadAuthActionCreator = payload => ({
 export const loadAuth = () => dispatch => {
   const email = localStorage.getItem('email')
   const token = localStorage.getItem('token')
+  const name = localStorage.getItem('name')
 
-  if (email && token) {
-    dispatch(loadAuthActionCreator({ email, token }))
+  if (email && token && name) {
+    dispatch(loadAuthActionCreator({ email, token, name }))
   }
 }
 
+export const logoutActionCreator = () => ({
+  type: LOGOUT
+})
+
+export const logout = () => dispatch => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('email')
+  localStorage.removeItem('name')
+  dispatch(logoutActionCreator())
+}
 
 export const login = payload => async dispatch => {
   dispatch(loginRequest())
