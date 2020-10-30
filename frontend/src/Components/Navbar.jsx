@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const { auth } = useSelector(state => state.auth)
 
   return (
     <div className={classes.root}>
@@ -39,9 +41,13 @@ export default function Navbar() {
           <Typography variant="h6" className={classes.title}>
             Bharti Tuition Classes
           </Typography>
-          <Link to='/login'>
-            <Button color="inherit">Login</Button>
-          </Link>
+          {
+            !auth && <>
+              <Link to='/login'>
+                <Button color="inherit">Login</Button>
+              </Link>
+            </>
+          }
         </Toolbar>
       </AppBar>
     </div>

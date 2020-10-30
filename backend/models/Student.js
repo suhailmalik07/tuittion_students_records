@@ -5,7 +5,8 @@ const studentSchema = new mongoose.Schema({
     type: String,
     required: true,
     min: 4,
-    max: 255
+    max: 255,
+    unique: true
   },
   grade: {
     type: String,
@@ -29,3 +30,4 @@ const studentSchema = new mongoose.Schema({
 })
 
 module.exports = mongoose.model('Student', studentSchema)
+

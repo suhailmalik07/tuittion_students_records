@@ -1,4 +1,7 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from './actionTypes';
+import {
+  LOAD_LOGIN, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS,
+  REGISTER_FAILURE, REGISTER_REQUEST, REGISTER_SUCCESS
+} from './actionTypes';
 
 const initState = {
   auth: false,
@@ -14,6 +17,16 @@ const reducers = (state = initState, { type, payload }) => {
     case LOGIN_SUCCESS:
       return { ...state, ...payload, auth: true, loading: false }
     case LOGIN_FAILURE:
+      return { ...state, loading: false, error: true, message: payload }
+
+    case LOAD_LOGIN:
+      return { ...state, loading: false, error: false, auth: true, ...payload }
+
+    case REGISTER_REQUEST:
+      return { ...state, loading: true }
+    case REGISTER_SUCCESS:
+      return { ...state, ...payload, loading: false, message: payload.message }
+    case REGISTER_FAILURE:
       return { ...state, loading: false, error: true, message: payload }
 
     default:

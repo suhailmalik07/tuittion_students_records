@@ -6,10 +6,13 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography'
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../Redux/auth/actions';
+import { Box } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const history = useHistory()
 
   const { error, message } = useSelector(state => state.auth)
 
@@ -30,8 +33,11 @@ const LoginPage = () => {
 
         <Button variant='contained' color='primary' onClick={handleLogin}>Login</Button>
 
+        <Box marginTop='2rem' paddingTop='2rem' borderTop='1px solid #c4c4c4'>
+          <Button variant='contained' fullWidth color='inherit' onClick={() => history.push('/register')}>Register Here</Button>
+        </Box>
       </Form>
-    </div>
+    </div >
   )
 }
 

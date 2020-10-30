@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const authRoutes = require('./routes/authRoutes')
+const studentsRoutes = require('./routes/studentsRoutes')
 
 const app = express()
 
@@ -19,6 +20,7 @@ mongoose.connect(process.env.MONGO_URI, { useCreateIndex: true, useNewUrlParser:
 
 
 app.use('/api', authRoutes)
+app.use('/api/students', studentsRoutes)
 
 
 app.listen(8000, () => {
