@@ -1,15 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
+// import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+// import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
-    minWidth: '48%',
-    margin: '1rem 0.5rem',
-    textAlign: 'left'
+    minWidth: 275,
+    margin: '1rem 0.5rem'
   },
   bullet: {
     display: 'inline-block',
@@ -24,22 +24,20 @@ const useStyles = makeStyles({
   },
 });
 
-export default function StudentCard({ _id, name, grade, gender, age }) {
+export default function TestCard({ name, marks, subject, date }) {
   const classes = useStyles();
 
-  const history = useHistory()
-
   return (
-    <Card onClick={() => { history.push(`/${_id}`) }} className={classes.root}>
+    <Card className={classes.root}>
       <CardContent>
         <Typography variant='h5' gutterBottom>
-          {name} - {age}
+          {name} - {subject}
         </Typography>
         <Typography variant='body1' gutterBottom>
-          Gender : {{ 'M': 'Male', 'F': 'Female' }[gender] || 'Other'}
+          Marks: {marks}
         </Typography>
         <Typography>
-          Grade : {grade}
+          date : {date}
         </Typography>
       </CardContent>
     </Card>
