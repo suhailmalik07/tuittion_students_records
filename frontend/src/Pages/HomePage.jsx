@@ -4,6 +4,7 @@ import StudentTable from '../Components/StudentTable';
 import AddStudent from '../Components/AddStudent'
 import SearchBar from '../Components/SearchBar'
 import auth0 from '../Api/auth0';
+import { useSelector } from 'react-redux';
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -49,9 +50,11 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false)
   const [query, setQuery] = useState('')
 
+  const { token } = useSelector(state => state.auth)
+
   useEffect(() => {
     setLoading(true)
-    auth0.get('http://localhost:8000/api/students', { params: { page, limit, query } })
+    auth0.get('http://localhost:8000/api/students', { params: { page, limit, query }, headers: { authorization: `Bearer ${token}` } })
       .then(res => {
         setStudents(res.data)
         setLoading(false)
@@ -59,7 +62,7 @@ const HomePage = () => {
         console.log(error.message);
         setLoading(false)
       })
-  }, [addStudentModal, page, query, limit])
+  }, [addStudentModal, page, query, limit, token])
 
   return (
     <>

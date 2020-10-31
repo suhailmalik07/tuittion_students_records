@@ -4,6 +4,7 @@ import CustomModal from './Modal';
 import Form from './Form';
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@material-ui/core';
 import auth0 from '../Api/auth0';
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 export default function AddStudent({ open, handleClose }) {
   const classes = useStyles();
   const [state, setState] = useState({ name: "", grade: "", gender: "", age: 18 })
+  const { token } = useSelector(state => state.auth)
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -21,7 +23,7 @@ export default function AddStudent({ open, handleClose }) {
   }
 
   const addStudent = () => {
-    auth0.post('http://localhost:8000/api/students', { ...state })
+    auth0.post('http://localhost:8000/api/students', { ...state }, { headers: { authorization: `Bearer ${token}` } })
       .then(({ data }) => { console.log('added'); handleClose() })
       .catch((error) => console.log(error.message))
   }

@@ -4,6 +4,7 @@ import CustomModal from './Modal';
 import Form from './Form';
 import { Button, TextField, Typography } from '@material-ui/core';
 import auth0 from '../Api/auth0';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -12,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function AddTest({ _id, open, handleClose }) {
+
+  const { token } = useSelector(state => state.auth)
 
   const dateObj = new Date()
   var month = dateObj.getUTCMonth() + 1; //months from 1-12
@@ -28,7 +31,7 @@ export default function AddTest({ _id, open, handleClose }) {
   }
 
   const addTest = () => {
-    auth0.post(`http://localhost:8000/api/students/${_id}`, { ...state })
+    auth0.post(`http://localhost:8000/api/students/${_id}`, { ...state }, { headers: { authorization: `Bearer ${token}` } })
       .then(({ data }) => {
         console.log('added');
         handleClose()
