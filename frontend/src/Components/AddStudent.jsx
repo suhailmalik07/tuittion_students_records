@@ -23,7 +23,7 @@ export default function AddStudent({ open, handleClose }) {
   const addStudent = () => {
     console.log('here')
     auth0.post('http://localhost:8000/api/students', { ...state })
-      .then(({ data }) => console.log('added'))
+      .then(({ data }) => { console.log('added'); handleClose() })
       .catch((error) => console.log(error.message))
   }
 
