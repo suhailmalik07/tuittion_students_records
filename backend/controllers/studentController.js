@@ -29,8 +29,8 @@ const paginate = async (Modal, req, res) => {
   let { page = 1, filter = '', limit = 20 } = req.query
   page = Number(page)
   limit = Number(limit)
-
-  const startIndx = (page - 1) * filter
+  
+  const startIndx = (page - 1) * limit
 
   try {
     const results = { page, limit, filter }
