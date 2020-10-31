@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const authRoutes = require('./routes/authRoutes')
 const studentsRoutes = require('./routes/studentsRoutes')
+const { authMiddleware } = require('./middleware/authMiddleware')
 
 const app = express()
 
@@ -25,7 +26,8 @@ mongoose.connect(process.env.MONGO_URI,
 
 
 app.use('/api', authRoutes)
-app.use('/api/students', studentsRoutes)
+
+app.use('/api/students', authMiddleware, studentsRoutes)
 
 
 app.listen(8000, () => {
