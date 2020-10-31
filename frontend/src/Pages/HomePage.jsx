@@ -47,10 +47,11 @@ const HomePage = () => {
   const [students, setStudents] = useState({})
   const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
+  const [query, setQuery] = useState('')
 
   useEffect(() => {
     setLoading(true)
-    auth0.get('http://localhost:8000/api/students', { params: { page, limit: 10 } })
+    auth0.get('http://localhost:8000/api/students', { params: { page, limit: 10, query } })
       .then(res => {
         setStudents(res.data)
         setLoading(false)
@@ -58,9 +59,7 @@ const HomePage = () => {
         console.log(error.message);
         setLoading(false)
       })
-  }, [addStudentModal, page])
-
-  console.log(students)
+  }, [addStudentModal, page, query])
 
   return (
     <>
@@ -68,7 +67,7 @@ const HomePage = () => {
 
       <Box display='flex' justifyContent='space-between' alignItems='center' margin='1rem' >
         <Box display='flex' alignItems='center'>
-          <SearchBar />
+          <SearchBar setValue={value => setQuery(value)} />
 
           <Typography style={{ marginLeft: '0.5rem' }} variant='h5' > Filter: </Typography>
           <FormControl style={{ padding: '0.2rem' }}>

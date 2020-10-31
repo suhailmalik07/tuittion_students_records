@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -49,8 +49,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SearchBar() {
+const useDebounce = (cb, delay) => {
+  let timeout = null;
+  return (value) => {
+    if (timeout) {
+      clearTimeout(timeout)
+    }
+    timeout = setTimeout(() => cb(value), delay)
+  }
+}
+
+export default function SearchBar({ setValue: setQuery }) {
   const classes = useStyles();
+  const [value, setValue] = useState('')
+
+  const debounce = useCallback(useDebounce(setQuery, 1000), [])
+
+  useEffect(() => {
+    debounce(value)
+  }, [value])
 
   return (
     <div className={classes.search}>
@@ -63,6 +80,8 @@ export default function SearchBar() {
           root: classes.inputRoot,
           input: classes.inputInput,
         }}
+        value={value}
+        onChange={e => setValue(e.target.value)}
         inputProps={{ 'aria-label': 'search' }}
       />
     </div>
