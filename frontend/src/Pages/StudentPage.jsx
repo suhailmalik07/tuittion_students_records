@@ -22,7 +22,7 @@ const StudentPage = () => {
         console.log(error.message);
         setLoading(false)
       })
-  }, [testModal])
+  }, [testModal, id])
 
   return (
     <>

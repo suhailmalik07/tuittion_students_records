@@ -1,8 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import React, { useCallback, useEffect, useState } from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -49,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const useDebounce = (cb, delay) => {
+const myDebounce = (cb, delay) => {
   let timeout = null;
   return (value) => {
     if (timeout) {
@@ -63,11 +59,11 @@ export default function SearchBar({ setValue: setQuery }) {
   const classes = useStyles();
   const [value, setValue] = useState('')
 
-  const debounce = useCallback(useDebounce(setQuery, 1000), [])
+  const debounce = useCallback(myDebounce(setQuery, 1000), [setQuery])
 
   useEffect(() => {
     debounce(value)
-  }, [value])
+  }, [debounce, value])
 
   return (
     <div className={classes.search}>

@@ -1,8 +1,6 @@
-import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Box, Button, CircularProgress, FormControl, InputBase, InputLabel, MenuItem, NativeSelect, Select, Typography, withStyles } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination'
-import StudentCard from '../Components/StudentCard';
+import { Box, Button, FormControl, InputBase, NativeSelect, Typography, withStyles } from '@material-ui/core';
+import StudentTable from '../Components/StudentTable';
 import AddStudent from '../Components/AddStudent'
 import SearchBar from '../Components/SearchBar'
 import auth0 from '../Api/auth0';
@@ -46,12 +44,13 @@ const HomePage = () => {
   const [addStudentModal, setAddStudentModal] = useState(false)
   const [students, setStudents] = useState({})
   const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(5)
   const [loading, setLoading] = useState(false)
   const [query, setQuery] = useState('')
 
   useEffect(() => {
     setLoading(true)
-    auth0.get('http://localhost:8000/api/students', { params: { page, limit: 10, query } })
+    auth0.get('http://localhost:8000/api/students', { params: { page, limit, query } })
       .then(res => {
         setStudents(res.data)
         setLoading(false)
@@ -59,7 +58,7 @@ const HomePage = () => {
         console.log(error.message);
         setLoading(false)
       })
-  }, [addStudentModal, page, query])
+  }, [addStudentModal, page, query, limit])
 
   return (
     <>
@@ -88,16 +87,10 @@ const HomePage = () => {
         </Box>
         <Button color='secondary' onClick={() => setAddStudentModal(true)} variant='contained' >Add Student</Button>
       </Box>
-      <Box display='flex' justifyContent="center" >
-        {loading && <CircularProgress />}
-      </Box>
-      {!loading &&
-        <>
-          {students?.results?.map(student => <StudentCard key={student._id} {...student} />)}
-          <Box display='flex' justifyContent='center' >
-            <Pagination onChange={(e, value) => setPage(value)} color='primary' page={students?.page} count={students?.totalPages} />
-          </Box>
-        </>
+      {
+        <Box padding='1rem 2rem'>
+          <StudentTable page={page} loading={loading} totalPages={students?.totalPages} totalResults={students?.totalResults} limit={limit} setPage={setPage} students={students?.results?.map((item, i) => ({ ...item, id: i }))} />
+        </Box>
       }
     </>
   )

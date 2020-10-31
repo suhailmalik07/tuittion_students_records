@@ -25,7 +25,7 @@ const Form = ({ onSubmit, children, className }) => {
   }
 
   return (
-    <form className={`${classes.root} ${className}`} onSubmit={handleSubmit} >
+    <form className={`${classes.root} ${className}`} style={{ '& > *': { margin: '0.5rem 0' } }} onSubmit={handleSubmit} >
       {children}
     </form>
   )
