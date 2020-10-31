@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
+import { useMemo } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -59,7 +60,7 @@ export default function SearchBar({ setValue: setQuery }) {
   const classes = useStyles();
   const [value, setValue] = useState('')
 
-  const debounce = useCallback(myDebounce(setQuery, 1000), [setQuery])
+  const debounce = useMemo(() => myDebounce(setQuery, 1000), [setQuery])
 
   useEffect(() => {
     debounce(value)
