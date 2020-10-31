@@ -13,9 +13,9 @@ const initState = {
 const reducers = (state = initState, { type, payload }) => {
   switch (type) {
     case LOGIN_REQUEST:
-      return { ...state, loading: true }
+      return { ...state, loading: true, error: false }
     case LOGIN_SUCCESS:
-      return { ...state, ...payload, auth: true, loading: false }
+      return { ...state, ...payload, auth: true, loading: false, error: false }
     case LOGIN_FAILURE:
       return { ...state, loading: false, error: true, message: payload }
 
@@ -26,9 +26,9 @@ const reducers = (state = initState, { type, payload }) => {
       return { ...state, auth: false }
 
     case REGISTER_REQUEST:
-      return { ...state, loading: true }
+      return { ...state, loading: true, error: false }
     case REGISTER_SUCCESS:
-      return { ...state, ...payload, loading: false, message: payload.message }
+      return { ...state, ...payload, loading: false, error: false, message: payload.message }
     case REGISTER_FAILURE:
       return { ...state, loading: false, error: true, message: payload }
 

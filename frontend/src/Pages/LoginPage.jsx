@@ -14,13 +14,20 @@ const LoginPage = () => {
   const [password, setPassword] = useState('')
   const history = useHistory()
 
-  const { error, message, auth } = useSelector(state => state.auth)
-
+  
   const dispatch = useDispatch()
-
+  
   const handleLogin = e => {
     e.preventDefault()
     dispatch(login({ email, password }))
+  }
+  
+  const { error, message, auth } = useSelector(state => state.auth)
+  const getError = (name) => {
+    if (error && message?.includes(name)) {
+      return message
+    }
+    return ''
   }
 
 
@@ -31,8 +38,8 @@ const LoginPage = () => {
       <Form onSubmit={handleLogin} >
         <Typography align='center' variant='h3' > Login </Typography>
 
-        <TextField label='Email' value={email} onChange={e => setEmail(e.target.value)} type='email' placeholder='Enter your email here!' variant='outlined' required />
-        <TextField label='Password' value={password} onChange={e => setPassword(e.target.value)} type='password' placeholder='Enter your password here!' variant='outlined' required />
+        <TextField label='Email' value={email} onChange={e => setEmail(e.target.value)} error={Boolean(getError('email'))} helperText={getError('email')} type='email' placeholder='Enter your email here!' variant='outlined' required />
+        <TextField label='Password' value={password} error={Boolean(getError('password'))} helperText={getError('password')} onChange={e => setPassword(e.target.value)} type='password' placeholder='Enter your password here!' variant='outlined' required />
 
         <Button variant='contained' color='primary' onClick={handleLogin}>Login</Button>
 

@@ -44,7 +44,8 @@ const HomePage = () => {
   const [addStudentModal, setAddStudentModal] = useState(false)
   const [students, setStudents] = useState({})
   const [page, setPage] = useState(1)
-  const [limit, setLimit] = useState(5)
+  // const [limit, setLimit] = useState(5)
+  const limit = 5
   const [loading, setLoading] = useState(false)
   const [query, setQuery] = useState('')
 
