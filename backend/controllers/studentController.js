@@ -26,10 +26,10 @@ const addStudentController = async (req, res) => {
 }
 
 const paginate = async (Modal, req, res) => {
-  let { page = 1, filter = '', limit = 20 } = req.query
+  let { page = 1, filter = '', limit = 20, query = '' } = req.query
   page = Number(page)
   limit = Number(limit)
-  
+
   const startIndx = (page - 1) * limit
 
   try {
@@ -37,7 +37,7 @@ const paginate = async (Modal, req, res) => {
     results.totalResults = await Modal.countDocuments()
     results.totalPages = Math.ceil(results.totalResults / limit)
 
-    results.results = await Modal.find({}).skip(startIndx).limit(limit)
+    results.results = await Modal.find({ name: { $regex: `${query}`, $options: 'i' } }).skip(startIndx).limit(limit)
     return results
   } catch (error) {
     res.status(400).json({ message: error.message })
