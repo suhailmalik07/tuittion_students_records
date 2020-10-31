@@ -21,6 +21,7 @@ const TestSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
+    default: new Date(),
     required: true
   }
 })

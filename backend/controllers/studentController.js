@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const Student = require('../models/Student')
+const Test = require('../models/Test')
 
 const studentValidator = data => {
   const schema = Joi.object({
@@ -52,4 +53,25 @@ const getAllStudentsController = async (req, res) => {
   }
 }
 
-module.exports = { addStudentController, getAllStudentsController }
+const getStudentWithTests = async (req, res) => {
+  const { id } = req.params
+  try {
+    const student = await Student.findById(id).populate('tests')
+    res.json(student)
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+}
+
+const addTest = async (req, res) => {
+  const { id } = req.params
+  try {
+    const test = await new Test({ ...req.body }).save()
+    const student = await Student.findByIdAndUpdate({ _id: id }, { $push: { tests: test } }, { new: true })
+    res.json(student)
+  } catch (error) {
+    res.status(400).json({ message: error.message })
+  }
+}
+
+module.exports = { addStudentController, getAllStudentsController, getStudentWithTests, addTest }

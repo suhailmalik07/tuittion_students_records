@@ -13,10 +13,15 @@ app.use(cors())
 
 dotenv.config()
 
-mongoose.connect(process.env.MONGO_URI, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true }, (error) => {
-  if (error) return console.error(error);
-  console.log('DB connected')
-})
+mongoose.connect(process.env.MONGO_URI,
+  {
+    useCreateIndex: true, useNewUrlParser: true,
+    useUnifiedTopology: true, useFindAndModify: false
+  },
+  (error) => {
+    if (error) return console.error(error);
+    console.log('DB connected')
+  })
 
 
 app.use('/api', authRoutes)
